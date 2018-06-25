@@ -35,10 +35,7 @@ namespace RosSharp.RosBridgeClient
             webSocket = new WebSocket(url);
             webSocket.OnMessage += (sender, e) => receivedOperation((WebSocket)sender, e);
 
-#if NETFX_CORE
             webSocket.ConnectAsync();
-#else
-#endif
         }
 
         public void Close()

@@ -308,6 +308,41 @@ namespace RosSharp.RosBridgeClient
         }
     }
 
+    public class GeometryTransform : Message
+    {
+        public GeometryVector3 translation;
+        public GeometryQuaternion rotation;
+        public GeometryTransform()
+        {
+            translation = new GeometryVector3();
+            rotation = new GeometryQuaternion();
+        }
+    }
+
+    public class GeometryTransformStamped : Message
+    {
+        public StandardHeader header;
+        public string child_frame_id;
+        public GeometryTransform transform;
+        public GeometryTransformStamped()
+        {
+            header = new StandardHeader();
+            child_frame_id = "";
+            transform = new GeometryTransform();
+        }
+    }
+
+    public class TF2TFMessage : Message
+    {
+        public GeometryTransformStamped[] transforms;
+
+        public TF2TFMessage()
+        {
+            transforms = null;
+        }
+    }
+
+
     public class ParamName : Message
     {
         public string name;

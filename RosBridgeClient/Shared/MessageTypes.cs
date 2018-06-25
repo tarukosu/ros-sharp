@@ -43,7 +43,10 @@ namespace RosSharp.RosBridgeClient
             { "sensor_msgs/CompressedImage", typeof(SensorCompressedImage) },
             { "std_msgs/Time", typeof(StandardTime)    },
             { "nav_msgs/MapMetaData", typeof(NavigationMapMetaData) },
-            { "nav_msgs/OccupancyGrid", typeof(NavigationOccupancyGrid)}
+            { "nav_msgs/OccupancyGrid", typeof(NavigationOccupancyGrid)},
+            { "geometry_msgs/Transform", typeof(GeometryTransform)},
+            { "geometry_msgs/TransformStamped", typeof(GeometryTransformStamped)},
+            { "tf2_msgs/TFMessage", typeof(TF2TFMessage)}
         };
         public static string RosMessageType(Type messageType)
         {
