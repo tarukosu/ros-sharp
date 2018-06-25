@@ -113,6 +113,9 @@
     <Compile Include="..\Shared\Message.cs">
       <Link>Message.cs</Link>
     </Compile>
+    <Compile Include="..\Shared\MessageTypes.cs">
+      <Link>MessageTypes.cs</Link>
+    </Compile>
     <Compile Include="..\Shared\Operation.cs">
       <Link>Operation.cs</Link>
     </Compile>
@@ -134,11 +137,6 @@
       <Link>RosBridgeClient.csproj</Link>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\Unity3D\Assets\RosSharp\Plugins\WSA\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
@@ -147,7 +145,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy  /D /Y "$(SolutionDir)Package4UWP\bin\x86\$(Configuration)\RosBridgeClient.dll" "$(SolutionDir)..\Unity3D\Assets\RosSharp\Plugins\WSA\RosBridgeClient.dll"
+    <PostBuildEvent>echo F | xcopy  /D /Y /I  "$(SolutionDir)Package4UWP\bin\x86\$(Configuration)\RosBridgeClient.dll" "$(SolutionDir)..\Unity3D\Assets\RosSharp\Plugins\WSA\RosBridgeClient.dll"
 </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

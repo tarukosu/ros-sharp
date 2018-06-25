@@ -11,8 +11,8 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)JObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MessageTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Plugin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PointCloud.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RosSocket.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UrdfImporter.cs" />

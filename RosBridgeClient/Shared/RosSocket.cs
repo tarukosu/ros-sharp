@@ -23,6 +23,7 @@ using WebSocketSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace RosSharp.RosBridgeClient
 {
@@ -33,7 +34,11 @@ namespace RosSharp.RosBridgeClient
         {
             webSocket = new WebSocket(url);
             webSocket.OnMessage += (sender, e) => receivedOperation((WebSocket)sender, e);
-            webSocket.Connect();
+
+#if NETFX_CORE
+            webSocket.ConnectAsync();
+#else
+#endif
         }
 
         public void Close()
@@ -127,9 +132,9 @@ namespace RosSharp.RosBridgeClient
             return id;
         }
         
-        #endregion
+#endregion
 
-        #region Private
+#region Private
 
         internal struct Publisher
         {
@@ -188,9 +193,15 @@ namespace RosSharp.RosBridgeClient
         {
             JObject operation = Deserialize(e.RawData);
 
-#if DEBUG            
-            Console.WriteLine("Received:\n" + JsonConvert.SerializeObject(operation, Formatting.Indented) + "\n");
+#if DEBUG
+            var msg = "Received:\n" + JsonConvert.SerializeObject(operation, Formatting.Indented) + "\n";
+#if NETFX_CORE
+            Debug.WriteLine(msg);
+#else
+            Console.WriteLine(msg);
 #endif
+#endif
+
 
             switch (operation.GetOperation())
             {
@@ -258,7 +269,13 @@ namespace RosSharp.RosBridgeClient
         private void sendOperation(Operation operation)
         {
 #if DEBUG
-            Console.WriteLine("Sending:\n" +  JsonConvert.SerializeObject(operation, Formatting.Indented) + "\n");           
+            var msg = "Sending:\n" +  JsonConvert.SerializeObject(operation, Formatting.Indented) + "\n";
+#if NETFX_CORE
+            Debug.WriteLine(msg);
+#else
+            Console.WriteLine(msg);
+#endif
+
 #endif
             webSocket.SendAsync(Serialize(operation), null);
         }
@@ -283,6 +300,6 @@ namespace RosSharp.RosBridgeClient
         {
             return Guid.NewGuid().GetHashCode().ToString();
         }
-        #endregion       
+#endregion
     }
 }

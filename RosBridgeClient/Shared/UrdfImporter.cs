@@ -92,6 +92,9 @@ namespace RosSharp.RosBridgeClient
 
         private void receiveRobotDescription(ServiceReceiver serviceReciever, object serviceResponse)
         {
+#if NETFX_CORE
+            //TODO imprementation
+#else
             string robotDescription = formatTextFileContents(((ParamValueString)serviceResponse).value);
 
             Thread importResourceFilesThread = new Thread(() => importResourceFiles(robotDescription));
@@ -101,6 +104,7 @@ namespace RosSharp.RosBridgeClient
             writeTextFileThread.Start();
 
             Status["robotDescriptionReceived"].Set();
+#endif
         }
 
         private void importResourceFiles(string fileContents)
@@ -140,6 +144,10 @@ namespace RosSharp.RosBridgeClient
 
         private void receiveResourceFile(ServiceReceiver serviceReceiver, object serviceResponse)
         {
+#if NETFX_CORE
+            //TODO imprementation
+#else
+
             byte[] fileContents = ((ParamValueByte)serviceResponse).value;
             Uri resourceFileUri = new Uri(((ParamName)serviceReceiver.ServiceParameter).name);
 
@@ -152,6 +160,7 @@ namespace RosSharp.RosBridgeClient
             writeTextFileThread.Start();
 
             updateFileRequestStatus(resourceFileUri);
+#endif
         }
 
         private void updateFileRequestStatus(Uri resourceFileUri)
