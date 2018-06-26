@@ -16,6 +16,9 @@ limitations under the License.
 using System;
 using System.Threading;
 using UnityEngine;
+#if NETFX_CORE
+using System.Threading.Tasks;
+#endif
 
 namespace RosSharp.RosBridgeClient
 {
@@ -25,25 +28,54 @@ namespace RosSharp.RosBridgeClient
         private int timestep { get { return (int)(Mathf.Round(Timestep * 1000)); } }
 
         //private System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+#if NETFX_CORE
+        private Task task;
+        private CancellationTokenSource tokenSource;
+#else
         private Thread clockTimeIterate;
+#endif
 
         protected override void Start()
         {
             base.Start();
 
             //stopwatch.Start();
+#if NETFX_CORE
+            tokenSource = new CancellationTokenSource();
+            CancellationToken token = tokenSource.Token;
+            task = new Task(async () =>
+            {
+                while (true) {
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    StartPublication(EventArgs.Empty);
+                    await Task.Delay(timestep);
+                }
+            }, token);
+            task.Start();
+#else
             clockTimeIterate = new Thread(ClockTimeIterate);
             clockTimeIterate.Start();
+#endif
         }
 
         private void OnApplicationQuit()
         {
+#if NETFX_CORE
+            tokenSource.Cancel();
+            tokenSource.Dispose();
+#else
             if (clockTimeIterate != null)
                 clockTimeIterate.Abort();
+
+#endif
             //if (stopwatch != null)
             //    stopwatch.Stop();
         }
 
+#if !NETFX_CORE
         private void ClockTimeIterate()
         {
             while (true)
@@ -53,5 +85,6 @@ namespace RosSharp.RosBridgeClient
                 Thread.Sleep(timestep);
             }
         }
+#endif
     }
 }
