@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bb64ca1c32a547f4dbd829f2b15df2db
-timeCreated: 1529980457
+guid: fe2fffb1f2dc55347b00fe4b6f7ec9fe
+timeCreated: 1529984148
 licenseType: Pro
 PluginImporter:
   externalObjects: {}
@@ -90,7 +90,7 @@ PluginImporter:
       enabled: 1
       settings:
         CPU: AnyCPU
-        DontProcess: True
+        DontProcess: False
         PlaceholderPath: 
         SDK: AnySDK
         ScriptingBackend: AnyScriptingBackend

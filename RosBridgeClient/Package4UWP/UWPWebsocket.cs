@@ -42,7 +42,8 @@ using System.IO;
 using Windows.System.Threading;
 
 using System.Runtime.InteropServices.WindowsRuntime;	//	AsBuffer
-using Windows.Storage.Streams;			// DataWriter
+using Windows.Storage.Streams;          // DataWriter
+using System.Text;
 //	https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/WebSocket/cs/Scenario2_Binary.xaml.cs
 
 
@@ -75,24 +76,25 @@ namespace WebSocketSharp
     {
         public string Data = null;
         public byte[] RawData = null;
+
         public Opcode Type
         {
-            get
-            {
-                return (RawData == null) ? Opcode.TEXT : Opcode.BINARY;
-            }
+            private set; get;
         }
+
 
         public MessageEventArgs(string data)
         {
+            Type = Opcode.TEXT;
             this.Data = data;
+            this.RawData = Encoding.ASCII.GetBytes(data);
         }
 
         public MessageEventArgs(byte[] data)
         {
+            Type = Opcode.BINARY;
             this.RawData = data;
         }
-
     }
 
 
